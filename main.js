@@ -15,12 +15,14 @@ app.use(express.json());
 
 let pedidos = [];
 
-app.get("/api/v1/pedidos", async (req, res) => {
+app.get("/api/v1/pedidos/:cid", async (req, res) => {
   try {
-    const data = await pinata.gateways.get("bafkreicc6c7du4qrp636n7q3m3yxt4ravcp3ciydrbq4ve35udvake4ive");
+    const { cid } = req.params; // Obtener el CID desde los parámetros de la URL
+    const data = await pinata.gateways.get(cid);
     res.json({ content: data });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Error al obtener los datos" });
   }
 });
 
